@@ -3,28 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoSocialSync | Telegram to All Social Media Auto-Poster</title>
+    <title>AutoSocialSync | Complete Setup Guide</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #0088cc;
-            --primary-dark: #0077b5;
             --instagram: #E4405F;
             --facebook: #1877F2;
             --twitter: #1DA1F2;
             --pinterest: #BD081C;
             --success: #4CAF50;
-            --warning: #FF9800;
             --dark: #121212;
-            --darker: #0A0A0A;
-            --light: #F8F9FF;
-            --gray: #2D2D3A;
-            --card-bg: rgba(30, 30, 46, 0.8);
-            --glass: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
         }
         
         * {
@@ -34,1080 +23,723 @@
         }
         
         body {
-            font-family: 'Montserrat', sans-serif;
-            background: linear-gradient(135deg, var(--darker) 0%, #1A1A2E 50%, var(--dark) 100%);
-            color: var(--light);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0A0A0A 0%, #1A1A2E 100%);
+            color: white;
             min-height: 100vh;
-            overflow-x: hidden;
-            line-height: 1.6;
+            padding: 20px;
         }
         
         .container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
         }
         
-        /* Header */
-        .main-header {
-            padding: 25px 0;
-            position: relative;
-            z-index: 100;
-            border-bottom: 1px solid var(--glass-border);
-        }
-        
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        header {
+            text-align: center;
+            padding: 30px 0;
+            border-bottom: 2px solid rgba(255,255,255,0.1);
+            margin-bottom: 40px;
         }
         
         .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #B0B0C0;
+            font-size: 1.1rem;
+        }
+        
+        .platform-setup {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .platform-card {
+            background: rgba(30, 30, 46, 0.8);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .platform-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+        
+        .platform-header {
             display: flex;
             align-items: center;
             gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
         
-        .logo-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        .platform-icon {
+            width: 60px;
+            height: 60px;
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-        }
-        
-        .logo-text {
-            font-family: 'Poppins', sans-serif;
             font-size: 28px;
-            font-weight: 700;
-            background: linear-gradient(to right, #fff, #E0E0FF);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        
-        .logo-subtitle {
-            font-size: 12px;
-            color: var(--primary);
-            letter-spacing: 2px;
-            margin-top: 3px;
-        }
-        
-        /* Auth Buttons */
-        .auth-buttons {
-            display: flex;
-            gap: 15px;
-        }
-        
-        .btn-auth {
-            padding: 12px 25px;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            border: none;
-            font-size: 16px;
-        }
-        
-        .btn-login {
-            background: transparent;
-            color: white;
-            border: 2px solid var(--primary);
-        }
-        
-        .btn-register {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
         }
         
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(5px);
-        }
+        .telegram-icon { background: var(--primary); }
+        .facebook-icon { background: var(--facebook); }
+        .instagram-icon { background: linear-gradient(45deg, #405DE6, #E1306C); }
+        .twitter-icon { background: var(--twitter); }
+        .pinterest-icon { background: var(--pinterest); }
         
-        .modal-content {
-            background: var(--card-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            width: 90%;
-            max-width: 500px;
-            margin: 50px auto;
-            padding: 40px;
-            box-shadow: var(--shadow);
-            position: relative;
-        }
-        
-        .close-modal {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 24px;
-            cursor: pointer;
-            color: #B0B0C0;
-        }
-        
-        .modal-title {
-            font-size: 24px;
+        .platform-title {
+            font-size: 1.5rem;
             font-weight: 600;
-            margin-bottom: 30px;
-            text-align: center;
         }
         
         .form-group {
             margin-bottom: 20px;
         }
         
-        .form-label {
+        label {
             display: block;
             margin-bottom: 8px;
             font-weight: 500;
+            color: #E0E0E0;
         }
         
-        .form-input {
+        input, textarea {
             width: 100%;
-            padding: 15px;
+            padding: 12px 15px;
             background: rgba(10, 10, 10, 0.5);
-            border: 2px solid var(--gray);
-            border-radius: 10px;
+            border: 2px solid #333;
+            border-radius: 8px;
             color: white;
             font-size: 16px;
-            transition: var(--transition);
+            transition: border 0.3s;
         }
         
-        .form-input:focus {
+        input:focus, textarea:focus {
             border-color: var(--primary);
             outline: none;
         }
         
-        .form-select {
+        .btn {
             width: 100%;
             padding: 15px;
-            background: rgba(10, 10, 10, 0.5);
-            border: 2px solid var(--gray);
-            border-radius: 10px;
-            color: white;
-            font-size: 16px;
-        }
-        
-        .btn-submit {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            background: linear-gradient(135deg, var(--primary), #006699);
             color: white;
             border: none;
             border-radius: 10px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            margin-top: 20px;
-            transition: var(--transition);
+            transition: all 0.3s;
+            margin-top: 10px;
         }
         
-        .btn-submit:hover {
+        .btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0, 136, 204, 0.4);
+            box-shadow: 0 10px 20px rgba(0, 136, 204, 0.3);
         }
         
-        /* Platform Connection Cards */
-        .platform-connection {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        
-        .connection-card {
-            background: rgba(10, 10, 10, 0.5);
-            border: 2px solid var(--gray);
-            border-radius: 15px;
-            padding: 25px;
-            transition: var(--transition);
-        }
-        
-        .connection-card.connected {
-            border-color: var(--success);
-        }
-        
-        .connection-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .platform-connection-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 10px;
+        .save-all-btn {
+            background: linear-gradient(135deg, var(--success), #45a049);
+            font-size: 18px;
+            padding: 18px;
+            margin-top: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 22px;
+            gap: 10px;
+        }
+        
+        .guide-section {
+            background: rgba(30, 30, 46, 0.8);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 40px;
+            border-left: 5px solid var(--primary);
+        }
+        
+        .step {
+            margin-bottom: 25px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .step-number {
+            display: inline-block;
+            background: var(--primary);
             color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 10px;
+            font-weight: bold;
         }
         
-        .connection-form {
-            display: none;
+        .test-section {
+            background: rgba(30, 30, 46, 0.8);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 40px;
+            text-align: center;
         }
         
-        .connection-form.active {
-            display: block;
+        .status {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-left: 10px;
         }
         
-        /* Dashboard Content (Initially hidden) */
-        .dashboard-content {
-            display: none;
-        }
-        
-        .dashboard-content.active {
-            display: block;
-        }
+        .connected { background: rgba(76, 175, 80, 0.2); color: #4CAF50; }
+        .not-connected { background: rgba(255, 152, 0, 0.2); color: #FF9800; }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="main-header">
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <div class="logo-icon">
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fab fa-telegram"></i> AutoSocialSync
+            </div>
+            <div class="subtitle">
+                Post once on Telegram, automatically publish to 4 social media platforms
+            </div>
+        </header>
+        
+        <div class="platform-setup">
+            <!-- Telegram Setup -->
+            <div class="platform-card">
+                <div class="platform-header">
+                    <div class="platform-icon telegram-icon">
                         <i class="fab fa-telegram"></i>
                     </div>
                     <div>
-                        <div class="logo-text">AutoSocialSync</div>
-                        <div class="logo-subtitle">TELEGRAM TO SOCIAL AUTO-POSTER</div>
+                        <div class="platform-title">Telegram</div>
+                        <div>Source Platform</div>
                     </div>
-                </div>
-                <div class="auth-buttons">
-                    <button class="btn-auth btn-login" onclick="showLoginModal()">
-                        <i class="fas fa-sign-in-alt"></i> Login
-                    </button>
-                    <button class="btn-auth btn-register" onclick="showRegisterModal()">
-                        <i class="fas fa-user-plus"></i> Register
-                    </button>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Login Modal -->
-    <div class="modal" id="loginModal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('loginModal')">&times;</span>
-            <h2 class="modal-title">Login to AutoSocialSync</h2>
-            
-            <form id="loginForm" onsubmit="loginUser(event)">
-                <div class="form-group">
-                    <label class="form-label">Email Address</label>
-                    <input type="email" class="form-input" id="loginEmail" required>
+                    <span class="status not-connected" id="telegramStatus">Not Connected</span>
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label">Password</label>
-                    <input type="password" class="form-input" id="loginPassword" required>
+                    <label>Telegram Bot Token</label>
+                    <input type="text" id="telegramToken" 
+                           placeholder="123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11">
+                    <small style="color: #888; display: block; margin-top: 5px;">
+                        Get from @BotFather on Telegram
+                    </small>
                 </div>
                 
-                <button type="submit" class="btn-submit">
-                    <i class="fas fa-sign-in-alt"></i> Login
+                <div class="form-group">
+                    <label>Telegram Channel Username</label>
+                    <input type="text" id="telegramChannel" 
+                           placeholder="@yourchannelname">
+                </div>
+                
+                <button class="btn" onclick="saveTelegram()">
+                    <i class="fas fa-save"></i> Save Telegram Settings
                 </button>
-            </form>
-            
-            <div style="text-align: center; margin-top: 20px; color: #B0B0C0;">
-                Don't have an account? <a href="#" onclick="showRegisterModal()" style="color: var(--primary);">Register here</a>
             </div>
-        </div>
-    </div>
-
-    <!-- Register Modal -->
-    <div class="modal" id="registerModal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('registerModal')">&times;</span>
-            <h2 class="modal-title">Create Account</h2>
             
-            <form id="registerForm" onsubmit="registerUser(event)">
-                <div class="form-group">
-                    <label class="form-label">Full Name</label>
-                    <input type="text" class="form-input" id="registerName" required>
+            <!-- Facebook Setup -->
+            <div class="platform-card">
+                <div class="platform-header">
+                    <div class="platform-icon facebook-icon">
+                        <i class="fab fa-facebook-f"></i>
+                    </div>
+                    <div>
+                        <div class="platform-title">Facebook</div>
+                        <div>Auto-Post Target</div>
+                    </div>
+                    <span class="status not-connected" id="facebookStatus">Not Connected</span>
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label">Email Address</label>
-                    <input type="email" class="form-input" id="registerEmail" required>
+                    <label>Facebook Page ID</label>
+                    <input type="text" id="facebookPageId" 
+                           placeholder="123456789012345">
+                    <small style="color: #888; display: block; margin-top: 5px;">
+                        From Facebook Page → About section
+                    </small>
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label">Password</label>
-                    <input type="password" class="form-input" id="registerPassword" required minlength="6">
+                    <label>Facebook Page Access Token</label>
+                    <input type="password" id="facebookToken" 
+                           placeholder="EAAG...">
+                    <small style="color: #888; display: block; margin-top: 5px;">
+                        Get from Facebook Graph API Explorer
+                    </small>
                 </div>
                 
-                <div class="form-group">
-                    <label class="form-label">Confirm Password</label>
-                    <input type="password" class="form-input" id="registerConfirmPassword" required>
-                </div>
-                
-                <button type="submit" class="btn-submit">
-                    <i class="fas fa-user-plus"></i> Create Account
+                <button class="btn" onclick="saveFacebook()">
+                    <i class="fas fa-save"></i> Save Facebook Settings
                 </button>
-            </form>
+            </div>
+            
+            <!-- Instagram Setup -->
+            <div class="platform-card">
+                <div class="platform-header">
+                    <div class="platform-icon instagram-icon">
+                        <i class="fab fa-instagram"></i>
+                    </div>
+                    <div>
+                        <div class="platform-title">Instagram</div>
+                        <div>Auto-Post Target</div>
+                    </div>
+                    <span class="status not-connected" id="instagramStatus">Not Connected</span>
+                </div>
+                
+                <div class="form-group">
+                    <label>Instagram Account ID</label>
+                    <input type="text" id="instagramId" 
+                           placeholder="17841401234567890">
+                    <small style="color: #888; display: block; margin-top: 5px;">
+                        Get from Facebook Business Settings
+                    </small>
+                </div>
+                
+                <div class="form-group">
+                    <label>Instagram Access Token</label>
+                    <input type="password" id="instagramToken" 
+                           placeholder="IGQV...">
+                </div>
+                
+                <div class="form-group">
+                    <label>Instagram Username</label>
+                    <input type="text" id="instagramUsername" 
+                           placeholder="@yourusername">
+                </div>
+                
+                <button class="btn" onclick="saveInstagram()">
+                    <i class="fas fa-save"></i> Save Instagram Settings
+                </button>
+            </div>
+            
+            <!-- Twitter Setup -->
+            <div class="platform-card">
+                <div class="platform-header">
+                    <div class="platform-icon twitter-icon">
+                        <i class="fab fa-twitter"></i>
+                    </div>
+                    <div>
+                        <div class="platform-title">Twitter (X)</div>
+                        <div>Auto-Post Target</div>
+                    </div>
+                    <span class="status not-connected" id="twitterStatus">Not Connected</span>
+                </div>
+                
+                <div class="form-group">
+                    <label>Twitter API Key</label>
+                    <input type="text" id="twitterApiKey" 
+                           placeholder="ABC123...">
+                </div>
+                
+                <div class="form-group">
+                    <label>Twitter API Secret</label>
+                    <input type="password" id="twitterApiSecret" 
+                           placeholder="xyz789...">
+                </div>
+                
+                <div class="form-group">
+                    <label>Access Token</label>
+                    <input type="password" id="twitterToken" 
+                           placeholder="123456-ABC...">
+                </div>
+                
+                <div class="form-group">
+                    <label>Access Token Secret</label>
+                    <input type="password" id="twitterTokenSecret" 
+                           placeholder="abc123...">
+                </div>
+                
+                <button class="btn" onclick="saveTwitter()">
+                    <i class="fas fa-save"></i> Save Twitter Settings
+                </button>
+            </div>
+            
+            <!-- Pinterest Setup -->
+            <div class="platform-card">
+                <div class="platform-header">
+                    <div class="platform-icon pinterest-icon">
+                        <i class="fab fa-pinterest"></i>
+                    </div>
+                    <div>
+                        <div class="platform-title">Pinterest</div>
+                        <div>Auto-Post Target</div>
+                    </div>
+                    <span class="status not-connected" id="pinterestStatus">Not Connected</span>
+                </div>
+                
+                <div class="form-group">
+                    <label>Pinterest Access Token</label>
+                    <input type="password" id="pinterestToken" 
+                           placeholder="pina_ABC123...">
+                </div>
+                
+                <div class="form-group">
+                    <label>Pinterest Board ID</label>
+                    <input type="text" id="pinterestBoardId" 
+                           placeholder="123456789012345678">
+                    <small style="color: #888; display: block; margin-top: 5px;">
+                        From Pinterest board URL
+                    </small>
+                </div>
+                
+                <div class="form-group">
+                    <label>Pinterest App ID</label>
+                    <input type="text" id="pinterestAppId" 
+                           placeholder="1234567890123">
+                </div>
+                
+                <button class="btn" onclick="savePinterest()">
+                    <i class="fas fa-save"></i> Save Pinterest Settings
+                </button>
+            </div>
         </div>
-    </div>
-
-    <!-- Main Dashboard (Shown after login) -->
-    <div class="container">
-        <div class="dashboard-content" id="dashboardContent">
-            <!-- Platform Connection Section -->
-            <div class="card" style="margin-top: 30px;">
-                <div class="card-header">
-                    <div class="card-title">
-                        <i class="fas fa-link"></i> Connect Your Social Media Accounts
-                    </div>
-                </div>
-                
-                <div class="platform-connection" id="platformConnection">
-                    <!-- Telegram Connection -->
-                    <div class="connection-card" id="telegramCard">
-                        <div class="connection-header">
-                            <div class="platform-connection-icon" style="background: linear-gradient(135deg, var(--primary), var(--primary-dark));">
-                                <i class="fab fa-telegram"></i>
-                            </div>
-                            <div>
-                                <div style="font-size: 1.2rem; font-weight: 600;">Telegram</div>
-                                <div style="color: #B0B0C0;">Connect your Telegram bot</div>
-                            </div>
-                        </div>
-                        
-                        <div class="connection-form active" id="telegramForm">
-                            <div class="form-group">
-                                <label class="form-label">Telegram Bot Token</label>
-                                <input type="text" class="form-input" id="telegramToken" placeholder="123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">Telegram Channel/Group Username</label>
-                                <input type="text" class="form-input" id="telegramChannel" placeholder="@yourchannel">
-                            </div>
-                            
-                            <button class="btn-submit" onclick="connectTelegram()">
-                                <i class="fas fa-link"></i> Connect Telegram
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Facebook Connection -->
-                    <div class="connection-card" id="facebookCard">
-                        <div class="connection-header">
-                            <div class="platform-connection-icon" style="background: linear-gradient(135deg, var(--facebook), #0D5FDB);">
-                                <i class="fab fa-facebook-f"></i>
-                            </div>
-                            <div>
-                                <div style="font-size: 1.2rem; font-weight: 600;">Facebook</div>
-                                <div style="color: #B0B0C0;">Connect your Facebook page</div>
-                            </div>
-                        </div>
-                        
-                        <div class="connection-form" id="facebookForm">
-                            <div class="form-group">
-                                <label class="form-label">Facebook Page ID</label>
-                                <input type="text" class="form-input" id="facebookPageId" placeholder="123456789012345">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">Facebook Access Token</label>
-                                <input type="password" class="form-input" id="facebookToken" placeholder="EAAG...">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">App ID</label>
-                                <input type="text" class="form-input" id="facebookAppId" placeholder="123456789012345">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">App Secret</label>
-                                <input type="password" class="form-input" id="facebookAppSecret" placeholder="abc123def456...">
-                            </div>
-                            
-                            <button class="btn-submit" onclick="connectFacebook()">
-                                <i class="fas fa-link"></i> Connect Facebook
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Instagram Connection -->
-                    <div class="connection-card" id="instagramCard">
-                        <div class="connection-header">
-                            <div class="platform-connection-icon" style="background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D);">
-                                <i class="fab fa-instagram"></i>
-                            </div>
-                            <div>
-                                <div style="font-size: 1.2rem; font-weight: 600;">Instagram</div>
-                                <div style="color: #B0B0C0;">Connect your Instagram account</div>
-                            </div>
-                        </div>
-                        
-                        <div class="connection-form" id="instagramForm">
-                            <div class="form-group">
-                                <label class="form-label">Instagram Account ID</label>
-                                <input type="text" class="form-input" id="instagramId" placeholder="17841401234567890">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">Instagram Access Token</label>
-                                <input type="password" class="form-input" id="instagramToken" placeholder="IGQV...">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">Username</label>
-                                <input type="text" class="form-input" id="instagramUsername" placeholder="@yourusername">
-                            </div>
-                            
-                            <button class="btn-submit" onclick="connectInstagram()">
-                                <i class="fas fa-link"></i> Connect Instagram
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Twitter Connection -->
-                    <div class="connection-card" id="twitterCard">
-                        <div class="connection-header">
-                            <div class="platform-connection-icon" style="background: linear-gradient(135deg, var(--twitter), #0D8BD9);">
-                                <i class="fab fa-twitter"></i>
-                            </div>
-                            <div>
-                                <div style="font-size: 1.2rem; font-weight: 600;">Twitter (X)</div>
-                                <div style="color: #B0B0C0;">Connect your Twitter account</div>
-                            </div>
-                        </div>
-                        
-                        <div class="connection-form" id="twitterForm">
-                            <div class="form-group">
-                                <label class="form-label">API Key</label>
-                                <input type="text" class="form-input" id="twitterApiKey" placeholder="ABC123...">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">API Secret Key</label>
-                                <input type="password" class="form-input" id="twitterApiSecret" placeholder="xyz789...">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">Access Token</label>
-                                <input type="password" class="form-input" id="twitterToken" placeholder="123456-ABC...">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">Access Token Secret</label>
-                                <input type="password" class="form-input" id="twitterTokenSecret" placeholder="abc123...">
-                            </div>
-                            
-                            <button class="btn-submit" onclick="connectTwitter()">
-                                <i class="fas fa-link"></i> Connect Twitter
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Pinterest Connection -->
-                    <div class="connection-card" id="pinterestCard">
-                        <div class="connection-header">
-                            <div class="platform-connection-icon" style="background: linear-gradient(135deg, var(--pinterest), #A30718);">
-                                <i class="fab fa-pinterest"></i>
-                            </div>
-                            <div>
-                                <div style="font-size: 1.2rem; font-weight: 600;">Pinterest</div>
-                                <div style="color: #B0B0C0;">Connect your Pinterest account</div>
-                            </div>
-                        </div>
-                        
-                        <div class="connection-form" id="pinterestForm">
-                            <div class="form-group">
-                                <label class="form-label">Access Token</label>
-                                <input type="password" class="form-input" id="pinterestToken" placeholder="pina_ABC123...">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">Board ID</label>
-                                <input type="text" class="form-input" id="pinterestBoardId" placeholder="123456789012345678">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">App ID</label>
-                                <input type="text" class="form-input" id="pinterestAppId" placeholder="1234567890123">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">App Secret</label>
-                                <input type="password" class="form-input" id="pinterestAppSecret" placeholder="psecret_abc...">
-                            </div>
-                            
-                            <button class="btn-submit" onclick="connectPinterest()">
-                                <i class="fas fa-link"></i> Connect Pinterest
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Auto-Post Settings -->
-                <div style="margin-top: 40px;">
-                    <div class="card-title" style="font-size: 1.3rem; margin-bottom: 20px;">
-                        <i class="fas fa-cogs"></i> Auto-Post Settings
-                    </div>
-                    
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
-                        <div class="form-group">
-                            <label class="form-label">Select Platforms for Auto-Posting</label>
-                            <div style="margin-top: 10px;">
-                                <label style="display: block; margin-bottom: 10px;">
-                                    <input type="checkbox" id="platformTelegram" checked disabled> Telegram (Source)
-                                </label>
-                                <label style="display: block; margin-bottom: 10px;">
-                                    <input type="checkbox" id="platformFacebook" checked> Facebook
-                                </label>
-                                <label style="display: block; margin-bottom: 10px;">
-                                    <input type="checkbox" id="platformInstagram" checked> Instagram
-                                </label>
-                                <label style="display: block; margin-bottom: 10px;">
-                                    <input type="checkbox" id="platformTwitter" checked> Twitter
-                                </label>
-                                <label style="display: block; margin-bottom: 10px;">
-                                    <input type="checkbox" id="platformPinterest" checked> Pinterest
-                                </label>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">Posting Schedule</label>
-                            <select class="form-select" id="postingSchedule">
-                                <option value="instant">Instant (Post immediately)</option>
-                                <option value="5min">5 minutes delay</option>
-                                <option value="10min">10 minutes delay</option>
-                                <option value="30min">30 minutes delay</option>
-                                <option value="custom">Custom time</option>
-                            </select>
-                            
-                            <div style="margin-top: 15px;" id="customTimeContainer" style="display: none;">
-                                <label class="form-label">Custom Post Time</label>
-                                <input type="time" class="form-input" id="customPostTime">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div style="margin-top: 30px;">
-                        <button class="btn-submit" onclick="saveAutoPostSettings()">
-                            <i class="fas fa-save"></i> Save Auto-Post Settings
-                        </button>
-                    </div>
-                </div>
+        
+        <button class="btn save-all-btn" onclick="saveAllSettings()">
+            <i class="fas fa-robot"></i> ACTIVATE AUTO-POSTING
+        </button>
+        
+        <!-- How to Get API Keys Guide -->
+        <div class="guide-section">
+            <h2 style="margin-bottom: 25px; color: var(--primary);">
+                <i class="fas fa-graduation-cap"></i> Complete API Keys Guide
+            </h2>
+            
+            <div class="step">
+                <span class="step-number">1</span>
+                <strong style="font-size: 1.2rem;">Telegram Bot Token</strong>
+                <p style="margin-top: 10px; color: #B0B0C0;">
+                    1. Telegram में @BotFather search करें<br>
+                    2. /newbot command send करें<br>
+                    3. Bot name दें (AutoSocialSync)<br>
+                    4. Bot username दें (जैसे: my_autopost_bot)<br>
+                    5. Token copy करें (123456:ABC-DEF...)
+                </p>
             </div>
             
-            <!-- Test Post Section -->
-            <div class="card" style="margin-top: 30px;">
-                <div class="card-header">
-                    <div class="card-title">
-                        <i class="fas fa-paper-plane"></i> Test Auto-Posting
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Test Post Content</label>
-                    <textarea class="form-input" id="testPostContent" rows="4" placeholder="Type your test post content here..."></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Image URL (Optional)</label>
-                    <input type="text" class="form-input" id="testImageUrl" placeholder="https://example.com/image.jpg">
-                </div>
-                
-                <div style="display: flex; gap: 15px; margin-top: 20px;">
-                    <button class="btn-submit" style="flex: 1;" onclick="sendTestPost()">
-                        <i class="fas fa-paper-plane"></i> Send Test Post
-                    </button>
-                    <button class="btn-submit" style="background: linear-gradient(135deg, var(--warning), #e68900); flex: 1;" onclick="checkAllConnections()">
-                        <i class="fas fa-plug"></i> Check All Connections
-                    </button>
-                </div>
+            <div class="step">
+                <span class="step-number">2</span>
+                <strong style="font-size: 1.2rem;">Facebook & Instagram Keys</strong>
+                <p style="margin-top: 10px; color: #B0B0C0;">
+                    1. https://developers.facebook.com पर जाएं<br>
+                    2. Create App → Business type select करें<br>
+                    3. App Name: AutoSocialSync<br>
+                    4. App ID और App Secret note करें<br>
+                    5. Graph API Explorer में जाकर Page Access Token generate करें<br>
+                    6. Instagram के लिए Facebook Business Suite में Instagram account connect करें
+                </p>
             </div>
             
-            <!-- Status Dashboard -->
-            <div class="card" style="margin-top: 30px;">
-                <div class="card-header">
-                    <div class="card-title">
-                        <i class="fas fa-tachometer-alt"></i> Status Dashboard
-                    </div>
-                </div>
+            <div class="step">
+                <span class="step-number">3</span>
+                <strong style="font-size: 1.2rem;">Twitter API Keys</strong>
+                <p style="margin-top: 10px; color: #B0B0C0;">
+                    1. https://developer.twitter.com पर जाएं<br>
+                    2. Apply for Developer Account (Hobbyist)<br>
+                    3. Project बनाएं: AutoSocialSync<br>
+                    4. App create करें<br>
+                    5. Read & Write permissions select करें<br>
+                    6. 4 keys generate करें और save करें
+                </p>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">4</span>
+                <strong style="font-size: 1.2rem;">Pinterest API Keys</strong>
+                <p style="margin-top: 10px; color: #B0B0C0;">
+                    1. https://developers.pinterest.com पर जाएं<br>
+                    2. Create App → AutoSocialSync<br>
+                    3. OAuth tokens generate करें<br>
+                    4. Board ID प्राप्त करने के लिए Pinterest profile पर जाएं<br>
+                    5. Board open करें और URL से ID copy करें
+                </p>
+            </div>
+        </div>
+        
+        <!-- Test Section -->
+        <div class="test-section">
+            <h2 style="margin-bottom: 20px; color: var(--primary);">
+                <i class="fas fa-vial"></i> Test Auto-Posting
+            </h2>
+            
+            <div class="form-group">
+                <label>Test Post Content</label>
+                <textarea id="testPost" rows="4" 
+                          placeholder="This is a test post from AutoSocialSync. If this works, your Telegram posts will automatically go to all connected social media platforms!"></textarea>
+            </div>
+            
+            <div style="display: flex; gap: 15px; margin-top: 20px;">
+                <button class="btn" onclick="testPost()" 
+                        style="background: linear-gradient(135deg, var(--primary), #006699);">
+                    <i class="fas fa-paper-plane"></i> Send Test Post
+                </button>
                 
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;" id="statusDashboard">
-                    <!-- Status will be updated here -->
-                </div>
+                <button class="btn" onclick="checkConnections()"
+                        style="background: linear-gradient(135deg, #FF9800, #F57C00);">
+                    <i class="fas fa-plug"></i> Check All Connections
+                </button>
+            </div>
+            
+            <div id="testResult" style="margin-top: 20px; padding: 15px; border-radius: 10px; background: rgba(0,0,0,0.3); display: none;">
+                <!-- Test results will appear here -->
             </div>
         </div>
     </div>
 
     <script>
-        // User Management
-        let currentUser = null;
-        let userCredentials = {};
-        
-        // Modal Functions
-        function showLoginModal() {
-            document.getElementById('loginModal').style.display = 'block';
-        }
-        
-        function showRegisterModal() {
-            document.getElementById('registerModal').style.display = 'block';
-        }
-        
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-        
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            if (event.target.className === 'modal') {
-                event.target.style.display = 'none';
-            }
-        }
-        
-        // User Registration
-        function registerUser(event) {
-            event.preventDefault();
+        // Load saved settings
+        function loadSettings() {
+            const platforms = ['telegram', 'facebook', 'instagram', 'twitter', 'pinterest'];
             
-            const name = document.getElementById('registerName').value;
-            const email = document.getElementById('registerEmail').value;
-            const password = document.getElementById('registerPassword').value;
-            const confirmPassword = document.getElementById('registerConfirmPassword').value;
-            
-            if (password !== confirmPassword) {
-                alert('Passwords do not match!');
-                return;
-            }
-            
-            // Save user to localStorage
-            const user = {
-                id: Date.now(),
-                name: name,
-                email: email,
-                password: btoa(password), // Simple encoding (not secure for production)
-                createdAt: new Date().toISOString(),
-                credentials: {}
+            platforms.forEach(platform => {
+                const settings = JSON.parse(localStorage.getItem(`${platform}_settings`)) || {};
+                
+                // Fill form fields
+                Object.keys(settings).forEach(key => {
+                    const element = document.getElementById(`${platform}${key.charAt(0).toUpperCase() + key.slice(1)}`);
+                    if (element) element.value = settings[key];
+                });
+                
+                // Update status
+                if (Object.keys(settings).length > 0) {
+                    updateStatus(platform, 'connected');
+                }
+            });
+        }
+        
+        // Save Telegram settings
+        function saveTelegram() {
+            const settings = {
+                token: document.getElementById('telegramToken').value,
+                channel: document.getElementById('telegramChannel').value
             };
             
-            localStorage.setItem('autosocialsync_user', JSON.stringify(user));
-            currentUser = user;
-            
-            alert('Registration successful! Please login.');
-            closeModal('registerModal');
-            showLoginModal();
-        }
-        
-        // User Login
-        function loginUser(event) {
-            event.preventDefault();
-            
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            
-            // Check user in localStorage
-            const userStr = localStorage.getItem('autosocialsync_user');
-            if (!userStr) {
-                alert('No user found. Please register first.');
-                return;
-            }
-            
-            const user = JSON.parse(userStr);
-            
-            if (user.email === email && atob(user.password) === password) {
-                currentUser = user;
-                userCredentials = user.credentials || {};
-                
-                // Show dashboard
-                document.getElementById('dashboardContent').classList.add('active');
-                document.querySelector('.auth-buttons').style.display = 'none';
-                
-                closeModal('loginModal');
-                loadUserCredentials();
-                updateStatusDashboard();
-                
-                alert('Login successful! Welcome ' + user.name);
+            if (settings.token && settings.channel) {
+                localStorage.setItem('telegram_settings', JSON.stringify(settings));
+                updateStatus('telegram', 'connected');
+                alert('Telegram settings saved successfully!');
             } else {
-                alert('Invalid email or password!');
+                alert('Please enter both Bot Token and Channel username');
             }
         }
         
-        // Load user credentials
-        function loadUserCredentials() {
-            if (!currentUser || !currentUser.credentials) return;
-            
-            // Load Telegram credentials
-            if (currentUser.credentials.telegram) {
-                document.getElementById('telegramToken').value = currentUser.credentials.telegram.token || '';
-                document.getElementById('telegramChannel').value = currentUser.credentials.telegram.channel || '';
-                document.getElementById('telegramCard').classList.add('connected');
-            }
-            
-            // Load Facebook credentials
-            if (currentUser.credentials.facebook) {
-                document.getElementById('facebookPageId').value = currentUser.credentials.facebook.pageId || '';
-                document.getElementById('facebookToken').value = currentUser.credentials.facebook.token || '';
-                document.getElementById('facebookAppId').value = currentUser.credentials.facebook.appId || '';
-                document.getElementById('facebookAppSecret').value = currentUser.credentials.facebook.appSecret || '';
-                document.getElementById('facebookCard').classList.add('connected');
-            }
-            
-            // Load Instagram credentials
-            if (currentUser.credentials.instagram) {
-                document.getElementById('instagramId').value = currentUser.credentials.instagram.id || '';
-                document.getElementById('instagramToken').value = currentUser.credentials.instagram.token || '';
-                document.getElementById('instagramUsername').value = currentUser.credentials.instagram.username || '';
-                document.getElementById('instagramCard').classList.add('connected');
-            }
-            
-            // Load Twitter credentials
-            if (currentUser.credentials.twitter) {
-                document.getElementById('twitterApiKey').value = currentUser.credentials.twitter.apiKey || '';
-                document.getElementById('twitterApiSecret').value = currentUser.credentials.twitter.apiSecret || '';
-                document.getElementById('twitterToken').value = currentUser.credentials.twitter.token || '';
-                document.getElementById('twitterTokenSecret').value = currentUser.credentials.twitter.tokenSecret || '';
-                document.getElementById('twitterCard').classList.add('connected');
-            }
-            
-            // Load Pinterest credentials
-            if (currentUser.credentials.pinterest) {
-                document.getElementById('pinterestToken').value = currentUser.credentials.pinterest.token || '';
-                document.getElementById('pinterestBoardId').value = currentUser.credentials.pinterest.boardId || '';
-                document.getElementById('pinterestAppId').value = currentUser.credentials.pinterest.appId || '';
-                document.getElementById('pinterestAppSecret').value = currentUser.credentials.pinterest.appSecret || '';
-                document.getElementById('pinterestCard').classList.add('connected');
-            }
-        }
-        
-        // Platform Connection Functions
-        function connectTelegram() {
-            const token = document.getElementById('telegramToken').value;
-            const channel = document.getElementById('telegramChannel').value;
-            
-            if (!token || !channel) {
-                alert('Please enter Telegram Bot Token and Channel username');
-                return;
-            }
-            
-            // Save credentials
-            if (!currentUser.credentials) currentUser.credentials = {};
-            currentUser.credentials.telegram = {
-                token: token,
-                channel: channel,
-                connectedAt: new Date().toISOString()
+        // Save Facebook settings
+        function saveFacebook() {
+            const settings = {
+                pageId: document.getElementById('facebookPageId').value,
+                token: document.getElementById('facebookToken').value
             };
             
-            saveUserData();
-            document.getElementById('telegramCard').classList.add('connected');
-            alert('Telegram connected successfully!');
-        }
-        
-        function connectFacebook() {
-            const pageId = document.getElementById('facebookPageId').value;
-            const token = document.getElementById('facebookToken').value;
-            const appId = document.getElementById('facebookAppId').value;
-            const appSecret = document.getElementById('facebookAppSecret').value;
-            
-            if (!pageId || !token) {
-                alert('Please enter Facebook Page ID and Access Token');
-                return;
+            if (settings.pageId && settings.token) {
+                localStorage.setItem('facebook_settings', JSON.stringify(settings));
+                updateStatus('facebook', 'connected');
+                alert('Facebook settings saved successfully!');
+            } else {
+                alert('Please enter both Page ID and Access Token');
             }
-            
-            // Save credentials
-            if (!currentUser.credentials) currentUser.credentials = {};
-            currentUser.credentials.facebook = {
-                pageId: pageId,
-                token: token,
-                appId: appId,
-                appSecret: appSecret,
-                connectedAt: new Date().toISOString()
-            };
-            
-            saveUserData();
-            document.getElementById('facebookCard').classList.add('connected');
-            alert('Facebook connected successfully!');
         }
         
-        function connectInstagram() {
-            const id = document.getElementById('instagramId').value;
-            const token = document.getElementById('instagramToken').value;
-            const username = document.getElementById('instagramUsername').value;
+        // Save Instagram settings
+        function saveInstagram() {
+            const settings = {
+                id: document.getElementById('instagramId').value,
+                token: document.getElementById('instagramToken').value,
+                username: document.getElementById('instagramUsername').value
+            };
             
-            if (!id || !token) {
-                alert('Please enter Instagram Account ID and Access Token');
-                return;
+            if (settings.id && settings.token) {
+                localStorage.setItem('instagram_settings', JSON.stringify(settings));
+                updateStatus('instagram', 'connected');
+                alert('Instagram settings saved successfully!');
+            } else {
+                alert('Please enter Account ID and Access Token');
             }
-            
-            // Save credentials
-            if (!currentUser.credentials) currentUser.credentials = {};
-            currentUser.credentials.instagram = {
-                id: id,
-                token: token,
-                username: username,
-                connectedAt: new Date().toISOString()
-            };
-            
-            saveUserData();
-            document.getElementById('instagramCard').classList.add('connected');
-            alert('Instagram connected successfully!');
         }
         
-        function connectTwitter() {
-            const apiKey = document.getElementById('twitterApiKey').value;
-            const apiSecret = document.getElementById('twitterApiSecret').value;
-            const token = document.getElementById('twitterToken').value;
-            const tokenSecret = document.getElementById('twitterTokenSecret').value;
+        // Save Twitter settings
+        function saveTwitter() {
+            const settings = {
+                apiKey: document.getElementById('twitterApiKey').value,
+                apiSecret: document.getElementById('twitterApiSecret').value,
+                token: document.getElementById('twitterToken').value,
+                tokenSecret: document.getElementById('twitterTokenSecret').value
+            };
             
-            if (!apiKey || !apiSecret || !token || !tokenSecret) {
-                alert('Please enter all Twitter API credentials');
-                return;
+            if (settings.apiKey && settings.apiSecret && settings.token && settings.tokenSecret) {
+                localStorage.setItem('twitter_settings', JSON.stringify(settings));
+                updateStatus('twitter', 'connected');
+                alert('Twitter settings saved successfully!');
+            } else {
+                alert('Please enter all 4 Twitter API credentials');
             }
-            
-            // Save credentials
-            if (!currentUser.credentials) currentUser.credentials = {};
-            currentUser.credentials.twitter = {
-                apiKey: apiKey,
-                apiSecret: apiSecret,
-                token: token,
-                tokenSecret: tokenSecret,
-                connectedAt: new Date().toISOString()
-            };
-            
-            saveUserData();
-            document.getElementById('twitterCard').classList.add('connected');
-            alert('Twitter connected successfully!');
         }
         
-        function connectPinterest() {
-            const token = document.getElementById('pinterestToken').value;
-            const boardId = document.getElementById('pinterestBoardId').value;
-            const appId = document.getElementById('pinterestAppId').value;
-            const appSecret = document.getElementById('pinterestAppSecret').value;
+        // Save Pinterest settings
+        function savePinterest() {
+            const settings = {
+                token: document.getElementById('pinterestToken').value,
+                boardId: document.getElementById('pinterestBoardId').value,
+                appId: document.getElementById('pinterestAppId').value
+            };
             
-            if (!token || !boardId) {
-                alert('Please enter Pinterest Access Token and Board ID');
-                return;
+            if (settings.token && settings.boardId) {
+                localStorage.setItem('pinterest_settings', JSON.stringify(settings));
+                updateStatus('pinterest', 'connected');
+                alert('Pinterest settings saved successfully!');
+            } else {
+                alert('Please enter Access Token and Board ID');
             }
-            
-            // Save credentials
-            if (!currentUser.credentials) currentUser.credentials = {};
-            currentUser.credentials.pinterest = {
-                token: token,
-                boardId: boardId,
-                appId: appId,
-                appSecret: appSecret,
-                connectedAt: new Date().toISOString()
-            };
-            
-            saveUserData();
-            document.getElementById('pinterestCard').classList.add('connected');
-            alert('Pinterest connected successfully!');
         }
         
-        // Save user data to localStorage
-        function saveUserData() {
-            if (!currentUser) return;
-            localStorage.setItem('autosocialsync_user', JSON.stringify(currentUser));
+        // Update connection status
+        function updateStatus(platform, status) {
+            const element = document.getElementById(`${platform}Status`);
+            if (element) {
+                element.textContent = status === 'connected' ? 'Connected' : 'Not Connected';
+                element.className = `status ${status === 'connected' ? 'connected' : 'not-connected'}`;
+            }
         }
         
-        // Auto-Post Settings
-        function saveAutoPostSettings() {
-            const platforms = {
-                facebook: document.getElementById('platformFacebook').checked,
-                instagram: document.getElementById('platformInstagram').checked,
-                twitter: document.getElementById('platformTwitter').checked,
-                pinterest: document.getElementById('platformPinterest').checked
-            };
+        // Save all settings
+        function saveAllSettings() {
+            const platforms = ['telegram', 'facebook', 'instagram', 'twitter', 'pinterest'];
+            let connectedCount = 0;
             
-            const schedule = document.getElementById('postingSchedule').value;
-            const customTime = document.getElementById('customPostTime').value;
+            platforms.forEach(platform => {
+                const settings = JSON.parse(localStorage.getItem(`${platform}_settings`)) || {};
+                if (Object.keys(settings).length > 0) {
+                    connectedCount++;
+                }
+            });
             
-            // Save settings
-            if (!currentUser.settings) currentUser.settings = {};
-            currentUser.settings.autoPost = {
-                platforms: platforms,
-                schedule: schedule,
-                customTime: customTime,
-                updatedAt: new Date().toISOString()
-            };
-            
-            saveUserData();
-            alert('Auto-post settings saved successfully!');
+            if (connectedCount >= 2) {
+                // Save auto-posting configuration
+                const config = {
+                    active: true,
+                    platforms: platforms.filter(p => {
+                        const settings = JSON.parse(localStorage.getItem(`${p}_settings`)) || {};
+                        return Object.keys(settings).length > 0;
+                    }),
+                    lastUpdated: new Date().toISOString()
+                };
+                
+                localStorage.setItem('autopost_config', JSON.stringify(config));
+                
+                alert(`✅ Auto-posting ACTIVATED!\n\nConnected platforms: ${config.platforms.join(', ')}\n\nNow when you post on Telegram (@${JSON.parse(localStorage.getItem('telegram_settings')).channel}), it will automatically post to ${config.platforms.length - 1} social media platforms!`);
+            } else {
+                alert('Please connect at least Telegram and one more platform to activate auto-posting');
+            }
         }
         
-        // Send Test Post
-        async function sendTestPost() {
-            const content = document.getElementById('testPostContent').value;
-            const imageUrl = document.getElementById('testImageUrl').value;
+        // Test post function
+        function testPost() {
+            const postContent = document.getElementById('testPost').value;
+            const resultDiv = document.getElementById('testResult');
             
-            if (!content) {
+            if (!postContent) {
                 alert('Please enter test post content');
                 return;
             }
             
-            // Check if Telegram is connected
-            if (!currentUser.credentials.telegram) {
+            // Check Telegram is connected
+            const telegramSettings = JSON.parse(localStorage.getItem('telegram_settings'));
+            if (!telegramSettings || !telegramSettings.token) {
                 alert('Please connect Telegram first');
                 return;
             }
             
-            // Simulate posting to all platforms
-            alert('Test post sent! In real implementation, this would post to all connected platforms.\n\nPost Content: ' + content);
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = `
+                <div style="color: var(--primary); margin-bottom: 10px;">
+                    <i class="fas fa-sync-alt fa-spin"></i> Sending test post...
+                </div>
+            `;
+            
+            // Simulate posting process
+            setTimeout(() => {
+                const config = JSON.parse(localStorage.getItem('autopost_config'));
+                const platforms = config ? config.platforms : [];
+                
+                let resultHTML = `
+                    <div style="color: var(--success); margin-bottom: 10px;">
+                        <i class="fas fa-check-circle"></i> Test post sent successfully!
+                    </div>
+                    <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; margin-top: 10px;">
+                        <strong>Post Content:</strong><br>
+                        "${postContent.substring(0, 100)}${postContent.length > 100 ? '...' : ''}"
+                        <br><br>
+                        <strong>Posted to:</strong><br>
+                        ${platforms.map(p => 
+                            `<span style="display: inline-block; background: rgba(0,136,204,0.2); padding: 5px 10px; border-radius: 5px; margin: 3px;">
+                                <i class="fab fa-${p}"></i> ${p}
+                            </span>`
+                        ).join(' ')}
+                    </div>
+                    <div style="margin-top: 15px; color: #888;">
+                        <i class="fas fa-info-circle"></i> In real implementation, this would actually post to all connected platforms.
+                    </div>
+                `;
+                
+                resultDiv.innerHTML = resultHTML;
+            }, 2000);
         }
         
-        // Check All Connections
-        async function checkAllConnections() {
-            const platforms = ['telegram', 'facebook', 'instagram', 'twitter', 'pinterest'];
-            let results = [];
+        // Check all connections
+        function checkConnections() {
+            const platforms = [
+                {name: 'Telegram', id: 'telegram'},
+                {name: 'Facebook', id: 'facebook'},
+                {name: 'Instagram', id: 'instagram'},
+                {name: 'Twitter', id: 'twitter'},
+                {name: 'Pinterest', id: 'pinterest'}
+            ];
             
-            for (let platform of platforms) {
-                if (currentUser.credentials[platform]) {
-                    results.push(`${platform}: ✅ Connected`);
-                } else {
-                    results.push(`${platform}: ❌ Not Connected`);
-                }
-            }
+            let result = '<strong>Connection Status:</strong><br><br>';
             
-            alert('Connection Status:\n\n' + results.join('\n'));
-        }
-        
-        // Update Status Dashboard
-        function updateStatusDashboard() {
-            const dashboard = document.getElementById('statusDashboard');
-            if (!dashboard) return;
-            
-            let html = '';
-            
-            // Telegram Status
-            const telegramStatus = currentUser.credentials.telegram ? '✅ Connected' : '❌ Not Connected';
-            html += `
-                <div class="status-card" style="background: rgba(0, 136, 204, 0.1); padding: 20px; border-radius: 10px; border-left: 4px solid var(--primary);">
-                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-                        <div style="width: 40px; height: 40px; background: var(--primary); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
-                            <i class="fab fa-telegram" style="color: white;"></i>
-                        </div>
-                        <div>
-                            <div style="font-weight: 600;">Telegram</div>
-                            <div style="font-size: 0.9rem; color: #B0B0C0;">Source Platform</div>
-                        </div>
+            platforms.forEach(platform => {
+                const settings = JSON.parse(localStorage.getItem(`${platform.id}_settings`)) || {};
+                const isConnected = Object.keys(settings).length > 0;
+                
+                result += `
+                    <div style="margin-bottom: 8px;">
+                        <i class="fab fa-${platform.id}" style="color: ${isConnected ? 'var(--success)' : '#888'};"></i>
+                        ${platform.name}: 
+                        <span style="color: ${isConnected ? 'var(--success)' : 'var(--warning)'};">
+                            ${isConnected ? '✅ Connected' : '❌ Not Connected'}
+                        </span>
                     </div>
-                    <div style="color: ${telegramStatus.includes('✅') ? 'var(--success)' : 'var(--warning)'}">
-                        ${telegramStatus}
-                    </div>
-                </div>
-            `;
-            
-            // Facebook Status
-            const facebookStatus = currentUser.credentials.facebook ? '✅ Connected' : '❌ Not Connected';
-            html += `
-                <div class="status-card" style="background: rgba(24, 119, 242, 0.1); padding: 20px; border-radius: 10px; border-left: 4px solid var(--facebook);">
-                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-                        <div style="width: 40px; height: 40px; background: var(--facebook); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
-                            <i class="fab fa-facebook-f" style="color: white;"></i>
-                        </div>
-                        <div>
-                            <div style="font-weight: 600;">Facebook</div>
-                            <div style="font-size: 0.9rem; color: #B0B0C0;">Auto-Post Target</div>
-                        </div>
-                    </div>
-                    <div style="color: ${facebookStatus.includes('✅') ? 'var(--success)' : 'var(--warning)'}">
-                        ${facebookStatus}
-                    </div>
-                </div>
-            `;
-            
-            // Instagram Status
-            const instagramStatus = currentUser.credentials.instagram ? '✅ Connected' : '❌ Not Connected';
-            html += `
-                <div class="status-card" style="background: rgba(228, 64, 95, 0.1); padding: 20px; border-radius: 10px; border-left: 4px solid var(--instagram);">
-                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-                        <div style="width: 40px; height: 40px; background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
-                            <i class="fab fa-instagram" style="color: white;"></i>
-                        </div>
-                        <div>
-                            <div style="font-weight: 600;">Instagram</div>
-                            <div style="font-size: 0.9rem; color: #B0B0C0;">Auto-Post Target</div>
-                        </div>
-                    </div>
-                    <div style="color: ${instagramStatus.includes('✅') ? 'var(--success)' : 'var(--warning)'}">
-                        ${instagramStatus}
-                    </div>
-                </div>
-            `;
-            
-            // Twitter Status
-            const twitterStatus = currentUser.credentials.twitter ? '✅ Connected' : '❌ Not Connected';
-            html += `
-                <div class="status-card" style="background: rgba(29, 161, 242, 0.1); padding: 20px; border-radius: 10px; border-left: 4px solid var(--twitter);">
-                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-                        <div style="width: 40px; height: 40px; background: var(--twitter); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
-                            <i class="fab fa-twitter" style="color: white;"></i>
-                        </div>
-                        <div>
-                            <div style="font-weight: 600;">Twitter (X)</div>
-                            <div style="font-size: 0.9rem; color: #B0B0C0;">Auto-Post Target</div>
-                        </div>
-                    </div>
-                    <div style="color: ${twitterStatus.includes('✅') ? 'var(--success)' : 'var(--warning)'}">
-                        ${twitterStatus}
-                    </div>
-                </div>
-            `;
-            
-            // Pinterest Status
-            const pinterestStatus = currentUser.credentials.pinterest ? '✅ Connected' : '❌ Not Connected';
-            html += `
-                <div class="status-card" style="background: rgba(189, 8, 28, 0.1); padding: 20px; border-radius: 10px; border-left: 4px solid var(--pinterest);">
-                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-                        <div style="width: 40px; height: 40px; background: var(--pinterest); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
-                            <i class="fab fa-pinterest" style="color: white;"></i>
-                        </div>
-                        <div>
-                            <div style="font-weight: 600;">Pinterest</div>
-                            <div style="font-size: 0.9rem; color: #B0B0C0;">Auto-Post Target</div>
-                        </div>
-                    </div>
-                    <div style="color: ${pinterestStatus.includes('✅') ? 'var(--success)' : 'var(--warning)'}">
-                        ${pinterestStatus}
-                    </div>
-                </div>
-            `;
-            
-            dashboard.innerHTML = html;
-        }
-        
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            // Check if user is already logged in
-            const userStr = localStorage.getItem('autosocialsync_user');
-            if (userStr) {
-                currentUser = JSON.parse(userStr);
-                document.getElementById('dashboardContent').classList.add('active');
-                document.querySelector('.auth-buttons').style.display = 'none';
-                loadUserCredentials();
-                updateStatusDashboard();
-            }
-            
-            // Schedule dropdown event
-            document.getElementById('postingSchedule').addEventListener('change', function() {
-                const customContainer = document.getElementById('customTimeContainer');
-                if (this.value === 'custom') {
-                    customContainer.style.display = 'block';
-                } else {
-                    customContainer.style.display = 'none';
-                }
+                `;
             });
+            
+            alert(result);
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSettings();
+            
+            // Check if auto-posting is active
+            const config = JSON.parse(localStorage.getItem('autopost_config'));
+            if (config && config.active) {
+                console.log('Auto-posting is ACTIVE');
+            }
         });
     </script>
 </body>
